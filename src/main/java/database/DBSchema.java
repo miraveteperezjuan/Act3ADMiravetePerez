@@ -9,6 +9,7 @@ public interface DBSchema {
 
     String TAB_COCHES = "coches";
     String TAB_PASAJEROS = "pasajeros";
+    String TAB_PASAJEROCOCHE = "pasajeroCoches";
 
     String COL_ID = "id";
 
@@ -20,5 +21,8 @@ public interface DBSchema {
     String COL_PASAJEROS_NOM = "nombre";
     String COL_PASAJEROS_ED = "edad";
     String COL_PASAJEROS_PE = "peso";
+
+    String COL_PASAJEROCOCHE_PA= "IdPasajero";
+    String COL_PASAJEROCOCHE_CO= "IdCoches";
 
 }

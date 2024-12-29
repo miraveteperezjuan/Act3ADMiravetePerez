@@ -3,6 +3,7 @@ package controller;
 import dao.CochesDAO;
 import dao.PasajeroDAO;
 import model.Coche;
+import model.Pasajero;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -127,16 +128,21 @@ public class Concesionario {
     private void agregarPasajeroCoche() {
     }
 
-    private void todosPasajeros() {
-    }
-
-    private void consultaPasajeroId() {
-    }
-
-    private void borrarPasajero() {
-    }
-
     private void agregarPasajero() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Introduce el nombre");
+        String nombre = scanner.next();
+        System.out.println("Introduce la edad");
+        int edad = scanner.nextInt();
+        System.out.println("Introduce el peso");
+        int peso = scanner.nextInt();
+
+        try {
+            pasajeroDAO.addPasajero(new Pasajero(nombre,edad,peso));
+        } catch (SQLException e) {
+            System.out.println("No se ha podido insertar en la base de datos");
+        }
+
     }
 
     public void agregarCoches(){
@@ -158,6 +164,17 @@ public class Concesionario {
 
     }
 
+    private void borrarPasajero() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Introduce el id del pasajero a borrar");
+        int id = scanner.nextInt();
+        try {
+            pasajeroDAO.deletePasajero(id);
+        } catch (SQLException e) {
+            System.out.println("Error al borrar el pasajero");
+        }
+    }
+
     public void borrarCoches(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Introduce el id del coche a borrar");
@@ -167,6 +184,20 @@ public class Concesionario {
         } catch (SQLException e) {
             System.out.println("Error al borrar el coche");
         }
+    }
+
+    private void consultaPasajeroId() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Introduce el id del pasajero a buscar:");
+        int id = scanner.nextInt();
+        try {
+            pasajeroDAO.buscarPasajeroPorId(id);
+        } catch (SQLException e) {
+            System.out.println("Error al buscar el pesajero en la base de datos: " + e.getMessage());
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Por favor, introduce un número válido." + e.getMessage());
+        }
+
     }
 
     private void consultarCoches() {
@@ -179,6 +210,14 @@ public class Concesionario {
             System.out.println("Error al buscar el coche en la base de datos: " + e.getMessage());
         } catch (InputMismatchException e) {
             System.out.println("Entrada inválida. Por favor, introduce un número válido." + e.getMessage());
+        }
+    }
+
+    private void todosPasajeros() {
+        try {
+            pasajeroDAO.obtenerTodosLosPasajeros();
+        } catch (SQLException e) {
+            System.out.println("No se ha podido listar en la base de datos");
         }
     }
 

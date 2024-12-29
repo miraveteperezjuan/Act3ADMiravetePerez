@@ -19,12 +19,21 @@ public class Coche implements Serializable {
     private String marca;
     private String modelo;
     private String color;
+    private Pasajero pasajero;
 
     public Coche(String matricula, String marca, String modelo, String color) {
         this.matricula = matricula;
         this.marca = marca;
         this.modelo = modelo;
         this.color = color;
+    }
+
+    public Coche(String matricula, String marca, String modelo, String color, Pasajero pasajero) {
+        this.matricula = matricula;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.color = color;
+        this.pasajero = pasajero;
     }
 
     @Override

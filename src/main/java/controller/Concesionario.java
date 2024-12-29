@@ -64,7 +64,7 @@ public class Concesionario {
                 default:
                     System.out.println("Opción invalida. Vuelva a intentarlo");
             }
-        } while (option != 6);
+        } while (option != 7);
     }
 
     private void opcionesPasajero() {
@@ -190,9 +190,82 @@ public class Concesionario {
             }
         }
 
-    private void modificarCoches () {
+    private void modificarCoches() {
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Introduce el id del coche a modificar:");
+        int id = scanner.nextInt();
 
+        try {
+
+          cochesDAO.buscarCochePorId(id);
+
+            System.out.println("¿Qué deseas modificar?");
+            System.out.println("1. Matrícula");
+            System.out.println("2. Marca");
+            System.out.println("3. Modelo");
+            System.out.println("4. Color");
+            System.out.println("5. Salir");
+            int opcion = scanner.nextInt();
+
+            scanner.nextLine(); // Consumir nueva línea
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("Introduce la nueva matrícula:");
+                    String nuevaMatricula = scanner.nextLine();
+                    if (nuevaMatricula == null || nuevaMatricula.isEmpty()) {
+                        System.out.println("La matrícula no puede estar vacía.");
+                        return;
+                    }
+                    cochesDAO.updateMatricula(id, nuevaMatricula);
+                    System.out.println("Matrícula actualizada correctamente.");
+                    break;
+
+                case 2:
+                    System.out.println("Introduce la nueva marca:");
+                    String nuevaMarca = scanner.nextLine();
+                    if (nuevaMarca == null || nuevaMarca.isEmpty()) {
+                        System.out.println("La marca no puede estar vacía.");
+                        return;
+                    }
+                    cochesDAO.updateMarca(id, nuevaMarca);
+                    System.out.println("Marca actualizada correctamente.");
+                    break;
+
+                case 3:
+                    System.out.println("Introduce el nuevo modelo:");
+                    String nuevoModelo = scanner.nextLine();
+                    if (nuevoModelo == null || nuevoModelo.isEmpty()) {
+                        System.out.println("El modelo no puede estar vacío.");
+                        return;
+                    }
+                    cochesDAO.updateModelo(id, nuevoModelo);
+                    System.out.println("Modelo actualizado correctamente.");
+                    break;
+
+                case 4:
+                    System.out.println("Introduce el nuevo color:");
+                    String nuevoColor = scanner.nextLine();
+                    if (nuevoColor == null || nuevoColor.isEmpty()) {
+                        System.out.println("El color no puede estar vacío.");
+                        return;
+                    }
+                    cochesDAO.updateColor(id, nuevoColor);
+                    System.out.println("Color actualizado correctamente.");
+                    break;
+
+                case 5:
+                    System.out.println("Saliendo del menú de modificación.");
+                    return;
+
+                default:
+                    System.out.println("Opción no válida. Intenta nuevamente.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al modificar el coche: " + e.getMessage());
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Por favor, introduce datos válidos." + e.getMessage());
+        }
     }
-
 }

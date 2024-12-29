@@ -3,7 +3,6 @@ package dao;
 import database.DBConnection;
 import database.DBSchema;
 import model.Coche;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -82,12 +81,48 @@ public class CochesDAO {
         }
     }
 
-
-
-
-
     private Coche mapearCoche(String matricula, String marca, String modelo, String color) {
         return new Coche(matricula,marca,modelo,color);
+    }
+
+    public void updateMatricula(int id, String nuevaMatricula) throws SQLException {
+        String query = String.format("UPDATE %s SET %s = ? WHERE %s = ?",
+                DBSchema.TAB_COCHES, DBSchema.COL_COCHES_MAT, DBSchema.COL_ID);
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, nuevaMatricula);
+        preparedStatement.setInt(2, id);
+        preparedStatement.executeUpdate();
+    }
+
+    public void updateMarca(int id, String nuevaMarca) throws SQLException {
+        String query = String.format("UPDATE %s SET %s = ? WHERE %s = ?",
+                DBSchema.TAB_COCHES, DBSchema.COL_COCHES_MA, DBSchema.COL_ID);
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, nuevaMarca);
+        preparedStatement.setInt(2, id);
+        preparedStatement.executeUpdate();
+    }
+
+    public void updateModelo(int id, String nuevoModelo) throws SQLException {
+        String query = String.format("UPDATE %s SET %s = ? WHERE %s = ?",
+                DBSchema.TAB_COCHES, DBSchema.COL_COCHES_MO, DBSchema.COL_ID);
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, nuevoModelo);
+        preparedStatement.setInt(2, id);
+        preparedStatement.executeUpdate();
+    }
+
+    public void updateColor(int id, String nuevoColor) throws SQLException {
+        String query = String.format("UPDATE %s SET %s = ? WHERE %s = ?",
+                DBSchema.TAB_COCHES, DBSchema.COL_COCHES_CO, DBSchema.COL_ID);
+
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, nuevoColor);
+        preparedStatement.setInt(2, id);
+        preparedStatement.executeUpdate();
     }
 
 }

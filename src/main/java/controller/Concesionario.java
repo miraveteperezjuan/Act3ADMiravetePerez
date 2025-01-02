@@ -81,7 +81,8 @@ public class Concesionario {
         System.out.println("5. Añadir pasajero a coche");
         System.out.println("6. Eliminar pasajero de un coche");
         System.out.println("7. Listar todos los pasajeros de un coche");
-        System.out.println("8. Salir del programa");
+        System.out.println("8. Volver al menu principal");
+        System.out.println("9. Salir del programa");
         System.out.print("Elige una opción: ");
     }
 
@@ -115,12 +116,15 @@ public class Concesionario {
                 listarPasajeroCoche();
                 break;
             case 8:
+                menu();
+                break;
+            case 9:
                 System.out.println("Saliendo...");
                 break;
             default:
                 System.out.println("Opción invalida. Vuelva a intentarlo");
         }
-        } while (option != 6);
+        } while (option != 9);
     }
 
     private void listarPasajeroCoche() {
@@ -159,9 +163,9 @@ public class Concesionario {
             System.out.println("No se ha podido listar en la base de datos");
         }
 
-        System.out.println("Introduce el id del coche");
+        System.out.println("Introduce el id del coche:");
         int idC = scanner.nextInt();
-        System.out.println("Introduce el id del pasajero");
+        System.out.println("Introduce el id del pasajero:");
         int idP = scanner.nextInt();
         PasajeroCoche pasajeroCoche = new PasajeroCoche(idC, idP);
         try {
@@ -175,11 +179,11 @@ public class Concesionario {
 
     private void agregarPasajero() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Introduce el nombre");
+        System.out.println("Introduce el nombre:");
         String nombre = scanner.next();
-        System.out.println("Introduce la edad");
+        System.out.println("Introduce la edad:");
         int edad = scanner.nextInt();
-        System.out.println("Introduce el peso");
+        System.out.println("Introduce el peso:");
         int peso = scanner.nextInt();
 
         try {
@@ -194,13 +198,13 @@ public class Concesionario {
 
     public void agregarCoches(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Introduce matricula");
+        System.out.println("Introduce matricula:");
         String matricula = scanner.next();
-        System.out.println("Introduce marca");
+        System.out.println("Introduce marca:");
         String marca = scanner.next();
-        System.out.println("Introduce modelo");
+        System.out.println("Introduce modelo:");
         String modelo = scanner.next();
-        System.out.println("Introduce color");
+        System.out.println("Introduce color:");
         String color = scanner.next();
 
         try {
@@ -215,7 +219,7 @@ public class Concesionario {
 
     private void borrarPasajero() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Introduce el id del pasajero a borrar");
+        System.out.println("Introduce el id del pasajero a borrar:");
         int id = scanner.nextInt();
         try {
             pasajeroDAO.deletePasajero(id);
@@ -228,7 +232,7 @@ public class Concesionario {
 
     public void borrarCoches(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Introduce el id del coche a borrar");
+        System.out.println("Introduce el id del coche a borrar:");
         int id = scanner.nextInt();
         try {
             cochesDAO.deleteCoche(id);

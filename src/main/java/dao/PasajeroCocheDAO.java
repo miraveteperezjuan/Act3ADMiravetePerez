@@ -34,40 +34,29 @@ public class PasajeroCocheDAO {
 
         String query = String.format("DELETE FROM %s WHERE %s = ? AND %s = ?",
                 DBSchema.TAB_PASAJEROCOCHE, DBSchema.COL_PASAJEROCOCHE_CO, DBSchema.COL_PASAJEROCOCHE_PA);
-        preparedStatement.setInt(1, idCoche );
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, idCoche);
         preparedStatement.setInt(2, idPasajero);
         preparedStatement.execute();
     }
 
     public void listarPasajerosDeCoche(int idCoche) throws SQLException {
-        String query = String.format("SELECT p.%s, p.%s " +
-                        "FROM %s pc " +
-                        "JOIN %s p ON pc.%s = p.%s " +
-                        "WHERE pc.%s = ?",
-                DBSchema.COL_PASAJEROS_NOM, DBSchema.COL_PASAJEROS_NOM, // Columnas de pasajeros
-                DBSchema.TAB_PASAJEROCOCHE, DBSchema.TAB_PASAJEROS, // Tablas involucradas
-                DBSchema.COL_PASAJEROCOCHE_PA, DBSchema.COL_ID, // Relación de las tablas
-                DBSchema.COL_PASAJEROCOCHE_CO); // ID del coche en la tabla de relación
+        String query = String.format(
+                "SELECT p.%s, p.%s FROM %s pc " +
+                        "JOIN %s p ON pc.%s = p.%s WHERE pc.%s = ?",
+                DBSchema.COL_ID, DBSchema.COL_PASAJEROS_NOM,
+                DBSchema.TAB_PASAJEROCOCHE, DBSchema.TAB_PASAJEROS,
+                DBSchema.COL_PASAJEROCOCHE_PA, DBSchema.COL_ID,
+                DBSchema.COL_PASAJEROCOCHE_CO);
 
-        // Preparar y ejecutar la consulta SQL
         preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, idCoche);  // Establecer el ID del coche
-        preparedStatement.execute();
+        preparedStatement.setInt(1, idCoche);
+        resultSet = preparedStatement.executeQuery();
+        System.out.println("Pasajeros asociados al coche");
+        System.out.println("------------------------------");
 
-        // Mostrar los pasajeros
-        boolean found = false;
         while (resultSet.next()) {
-            found = true;
-            System.out.println("ID Pasajero: " + resultSet.getInt(DBSchema.COL_ID) +
-                    ", Nombre: " + resultSet.getString(DBSchema.COL_PASAJEROS_NOM));
+            System.out.println("- " + resultSet.getString(DBSchema.COL_PASAJEROS_NOM));
         }
-
-        if (!found) {
-            System.out.println("No hay pasajeros asociados a este coche.");
-        }
-
     }
-
-
-
 }

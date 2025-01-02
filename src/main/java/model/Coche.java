@@ -28,12 +28,12 @@ public class Coche implements Serializable {
         this.color = color;
     }
 
-    public Coche(String matricula, String marca, String modelo, String color, Pasajero pasajero) {
+    public Coche(int id, String matricula, String marca, String modelo, String color) {
+        this.id = id;
         this.matricula = matricula;
         this.marca = marca;
         this.modelo = modelo;
         this.color = color;
-        this.pasajero = pasajero;
     }
 
     @Override

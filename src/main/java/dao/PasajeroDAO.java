@@ -47,7 +47,7 @@ public class PasajeroDAO {
         String query = String.format("SELECT * FROM %s WHERE %s = ?", DBSchema.TAB_PASAJEROS, DBSchema.COL_ID);
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()){
 
@@ -62,7 +62,7 @@ public class PasajeroDAO {
 
         String query = String.format("SELECT * FROM %s", DBSchema.TAB_PASAJEROS);
         preparedStatement = connection.prepareStatement(query);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
 
         List<Pasajero> pasajeros = new ArrayList<>();
 

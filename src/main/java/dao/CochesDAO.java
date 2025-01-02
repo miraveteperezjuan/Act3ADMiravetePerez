@@ -46,7 +46,7 @@ public class CochesDAO {
         String query = String.format("SELECT * FROM %s WHERE %s = ?", DBSchema.TAB_COCHES, DBSchema.COL_ID);
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()){
             String matricula = resultSet.getString(DBSchema.COL_COCHES_MAT);
@@ -61,7 +61,7 @@ public class CochesDAO {
 
         String query = String.format("SELECT * FROM %s", DBSchema.TAB_COCHES);
         preparedStatement = connection.prepareStatement(query);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
 
         List<Coche> coches = new ArrayList<>();
 
@@ -81,8 +81,37 @@ public class CochesDAO {
         }
     }
 
+    public void obtenerTodosLosCochesConId() throws SQLException {
+
+        String query = String.format("SELECT * FROM %s", DBSchema.TAB_COCHES);
+        preparedStatement = connection.prepareStatement(query);
+        resultSet = preparedStatement.executeQuery();
+
+        List<Coche> coches = new ArrayList<>();
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt(DBSchema.COL_ID);
+            String matricula = resultSet.getString(DBSchema.COL_COCHES_MAT);
+            String marca = resultSet.getString(DBSchema.COL_COCHES_MA);
+            String modelo = resultSet.getString(DBSchema.COL_COCHES_MO);
+            String color = resultSet.getString(DBSchema.COL_COCHES_CO);
+
+            Coche coche = mapearCocheConId(id,matricula, marca, modelo, color);
+            coches.add(coche);
+        }
+
+        for (Coche coche : coches) {
+            System.out.printf("El coche con ID %s posee la matrícula %s, es de la marca %s, es del modelo %s y tiene un color %s%n",
+                    coche.getId(),coche.getMatricula(), coche.getMarca(), coche.getModelo(), coche.getColor());
+        }
+    }
+
     private Coche mapearCoche(String matricula, String marca, String modelo, String color) {
         return new Coche(matricula,marca,modelo,color);
+    }
+
+    private Coche mapearCocheConId(int id, String matricula, String marca, String modelo, String color) {
+        return new Coche(id,matricula,marca,modelo,color);
     }
 
     public void updateMatricula(int id, String nuevaMatricula) throws SQLException {

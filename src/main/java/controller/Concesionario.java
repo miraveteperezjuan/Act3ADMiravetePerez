@@ -1,9 +1,11 @@
 package controller;
 
 import dao.CochesDAO;
+import dao.PasajeroCocheDAO;
 import dao.PasajeroDAO;
 import model.Coche;
 import model.Pasajero;
+import model.PasajeroCoche;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -13,10 +15,12 @@ public class Concesionario {
 
     private CochesDAO cochesDAO;
     private PasajeroDAO pasajeroDAO;
+    private PasajeroCocheDAO pasajeroCocheDAO;
 
     public Concesionario(){
         cochesDAO = new CochesDAO();
         pasajeroDAO = new PasajeroDAO();
+        pasajeroCocheDAO = new PasajeroCocheDAO();
     }
 
     public void opciones() {
@@ -69,7 +73,7 @@ public class Concesionario {
     }
 
     private void opcionesPasajero() {
-        System.out.println("\n--- Gestión de Pasajeros y coches ---");
+        System.out.println("\n--- Gestión de Pasajeros ---");
         System.out.println("1. Añadir nuevo pasajero");
         System.out.println("2. Borrar pasajero por ID");
         System.out.println("3. Consultar pasajero por ID");
@@ -120,12 +124,53 @@ public class Concesionario {
     }
 
     private void listarPasajeroCoche() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Introduce el id del coche para buscar los pasajeros que hay dentro:");
+        int id = scanner.nextInt();
+        try {
+            pasajeroCocheDAO.listarPasajerosDeCoche(id);
+        } catch (SQLException e) {
+            System.out.println("Error al buscar el pesajero en la base de datos: " + e.getMessage());
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Por favor, introduce un número válido." + e.getMessage());
+
+    }
     }
 
     private void eliminarPasajeroCoche() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Introduce el id del coche del cual quieres borrar al pasajero:");
+        int idC = scanner.nextInt();
+        System.out.println("Introduce el id del pasajero a borrar:");
+        int idP = scanner.nextInt();
+        try {
+            pasajeroCocheDAO.borrarPasajeroCoche(idC, idP);
+        } catch (SQLException e) {
+            System.out.println("Error al borrar el pasajero: " + e.getMessage());
+        }
     }
 
     private void agregarPasajeroCoche() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("-----Coches disponibles-----");
+        try {
+            cochesDAO.obtenerTodosLosCochesConId();
+        } catch (SQLException e) {
+            System.out.println("No se ha podido listar en la base de datos");
+        }
+
+        System.out.println("Introduce el id del coche");
+        int idC = scanner.nextInt();
+        System.out.println("Introduce el id del pasajero");
+        int idP = scanner.nextInt();
+        PasajeroCoche pasajeroCoche = new PasajeroCoche(idC, idP);
+        try {
+            pasajeroCocheDAO.addPasajeroToCoche(pasajeroCoche); // Llamar al DAO para guardar en la base de datos.
+            System.out.println("El pasajero con ID " + idP + " ha sido añadido al coche con ID " + idC);
+        } catch (SQLException e) {
+            System.out.println("No se ha podido añadir el pasajero al coche en la base de datos.");
+        }
+
     }
 
     private void agregarPasajero() {
@@ -140,8 +185,10 @@ public class Concesionario {
         try {
             pasajeroDAO.addPasajero(new Pasajero(nombre,edad,peso));
         } catch (SQLException e) {
-            System.out.println("No se ha podido insertar en la base de datos");
+            System.out.println("No se ha podido insertar en la base de datos" + e.getMessage());
         }
+
+        System.out.println("Pasajero añadido correctamente");
 
     }
 
@@ -159,8 +206,10 @@ public class Concesionario {
         try {
             cochesDAO.addCoche(new Coche(matricula,marca,modelo,color));
         } catch (SQLException e) {
-            System.out.println("No se ha podido insertar en la base de datos");
+            System.out.println("No se ha podido insertar en la base de datos" + e.getMessage());
         }
+
+        System.out.println("Automóvil añadido correctamente");
 
     }
 
@@ -171,8 +220,10 @@ public class Concesionario {
         try {
             pasajeroDAO.deletePasajero(id);
         } catch (SQLException e) {
-            System.out.println("Error al borrar el pasajero");
+            System.out.println("Error al borrar el pasajero" + e.getMessage());
         }
+
+        System.out.println("Pasajero borrado correctamente");
     }
 
     public void borrarCoches(){
@@ -182,8 +233,10 @@ public class Concesionario {
         try {
             cochesDAO.deleteCoche(id);
         } catch (SQLException e) {
-            System.out.println("Error al borrar el coche");
+            System.out.println("Error al borrar el coche" + e.getMessage());
         }
+
+        System.out.println("Automóvil borrado correctamente");
     }
 
     private void consultaPasajeroId() {
@@ -217,7 +270,7 @@ public class Concesionario {
         try {
             pasajeroDAO.obtenerTodosLosPasajeros();
         } catch (SQLException e) {
-            System.out.println("No se ha podido listar en la base de datos");
+            System.out.println("No se ha podido listar en la base de datos" + e.getMessage());
         }
     }
 
@@ -225,7 +278,7 @@ public class Concesionario {
             try {
              cochesDAO.obtenerTodosLosCoches();
             } catch (SQLException e) {
-                System.out.println("No se ha podido listar en la base de datos");
+                System.out.println("No se ha podido listar en la base de datos" + e.getMessage());
             }
         }
 

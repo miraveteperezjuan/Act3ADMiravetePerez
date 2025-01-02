@@ -13,4 +13,11 @@ import lombok.Setter;
 public class PasajeroCoche {
     private int id, id_paj, id_coche;
 
+
+    public PasajeroCoche(int id_coche, int id_paj) {
+        this.id_coche = id_coche;
+        this.id_paj = id_paj;
+    }
+
+
 }
